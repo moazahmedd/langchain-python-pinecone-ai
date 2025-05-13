@@ -19,7 +19,7 @@ class Settings(BaseSettings):
     HOST: str = os.getenv("HOST", "0.0.0.0")
     
     # Pinecone settings
-    PINECONE_INDEX_NAME: str = "rag-pdf-langchain-dense"
+    PINECONE_INDEX_NAME: str = os.getenv("PINECONE_INDEX")
     # PINECONE_NAMESPACE: str = "think-and-grow-rich"
     
     # Document settings
@@ -28,13 +28,15 @@ class Settings(BaseSettings):
     CHUNK_OVERLAP: int = 100
     
     # Model settings
-    EMBEDDING_MODEL: str = "text-embedding-3-small"
-    LLM_MODEL: str = "gpt-4o"
+    EMBEDDING_MODEL: str = os.getenv("EMBEDDING_MODEL")
+    LLM_MODEL: str = os.getenv("LLM_MODEL")
     LLM_TEMPERATURE: float = 0.3
     
     class Config:
         env_file = ".env"
 
 def get_settings() -> Settings:
+    print("LANGSMITH_PROJECT:", os.getenv("LANGSMITH_PROJECT"))
+    print("LANGSMITH_API_KEY (last 4):", os.getenv("LANGSMITH_API_KEY")[-4:])
     settings = Settings()
     return settings 
